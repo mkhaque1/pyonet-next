@@ -25,7 +25,7 @@ if (!process.env.NEXTAUTH_SECRET) {
   throw new Error('NEXTAUTH_SECRET environment variable is not set');
 }
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
@@ -39,12 +39,12 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        const user = users.find(user => user.email === credentials.email);
-        
+        const user = users.find((user) => user.email === credentials.email);
+
         if (!user || user.password !== credentials.password) {
           throw new Error('Invalid credentials');
         }
-        
+
         return {
           id: user.id,
           name: user.name,
@@ -80,25 +80,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-const handler = async (req: NextRequest) => {
-  try {
-    const response = await NextAuth(authOptions)(req);
-    return response;
-  } catch (error) {
-    console.error('NextAuth Error:', error);
-    return new Response(
-      JSON.stringify({
-        error: 'Authentication error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-  }
-}
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

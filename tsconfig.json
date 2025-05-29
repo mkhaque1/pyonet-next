@@ -1,23 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es2017", // ES2017 or higher to support Set iteration
+    "lib": ["dom", "dom.iterable", "esnext"], // Match browser capabilities + modern features
+    "module": "esnext",
+    "moduleResolution": "bundler", // Required for App Router / bundler-based resolution
+    "jsx": "preserve",
+    "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "noEmit": true,
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "downlevelIteration": true, // Enables spread/destructuring of iterable types
+    "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
@@ -26,8 +23,19 @@
       "@/styles/*": ["./src/styles/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/types/*": ["./src/types/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
